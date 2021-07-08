@@ -32,10 +32,11 @@ ex: MYSQL_ROOT_PASSWORD: dGV4dG8K
 ```
 
 #### Criando o Persitente Volume para o Banco de Dados.
-
+>
 > No K8S o volume persistente é formado por StoreageClass, PersistenteVolume, PersitenteVolumeClain, onde:
 > A ordem de criação é importante para didaticamente entender como funciona:
->
+> link para [documentação](https://kubernetes.io/pt-br/docs/concepts/storage/persistent-volumes/).
+> 
 1. se cria o StorageClass:
 
 ```
