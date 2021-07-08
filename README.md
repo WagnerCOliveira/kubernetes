@@ -89,13 +89,112 @@ spec:
 ```
 
 #### criando o deploy para o banco de dados.
+>
+>Para um Pod ser executado no kubernetes é preciso fazer um deploy (colocar em funcionamento um container, com um codigo desenvolvido e injetado dentro do >container) é preciso criar um serviço onde vai expor as portas para acesso, interno ou externo do cluster. 
+>No caso do banco de dados ele só vai ser visível internamente pelo Pod de aplicação do wordpress.
+>
 
+```
+clusterIP: None
+```
+>
+> As secrets para acesso ao mysql
+> 
+```
+      env:
+        - name: MYSQL_USER # Conferir nome da secret
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD # Conferir nome da secret
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: MYSQL_DATABASE
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secret
+              key: MYSQL_ROOT_PASSWORD
+
+```
+>
+> O Volume que foi criado anteriomente.
+> 
+```
+    volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-wp-pv-claim # Conferir nome do Volume.
+```
 #### checando os logs do banco de dados.
 
+>
+> Com o comando abaixo vejo os logs do Pod onde o mysql está instalado.
+```
+kubectl logs -n wordpress mysql-69df96bbf7-p65bg
+```
+>
+> Linhas do Log indicando que o Pod está online
+> 
+```
+2021-07-08 10:51:50 1 [Note] Event Scheduler: Loaded 0 events
+2021-07-08 10:51:50 1 [Note] mysqld: ready for connections.
+Version: '5.6.51'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+```
 #### acessando o banco de dados e verificação.
+
+>
+> Com o comando criamos um Pod cliente do mysql e acessamos o banco.
+>
+```
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -n wordpresslatest -- mysql -hmysql -umeuusuario -pminhasenha
+```
+
 
 #### criando o Persistente Volume para o WordPress.
 
+>
+> Esse processo segue o mesmo modo do que já foi falado no topico anterior "Criando o Persitente Volume para o Banco de Dados".
+>
+
 #### criando o deploy para o Wordpress.
 
+>
+> Esse processo segue o mesmo modo do que já foi falado no topico anterior "criando o deploy para o banco de dados".
+>
+
 #### acessando e concluindo a instalação do Wordpress.
+>
+>Para acessar a aplicação temos que pegar a porta que gerada para o Pod
+>
+```
+#kubectl get service -n wordpress
+
+NAME        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+mysql       ClusterIP   None             <none>        3306/TCP       5h1m
+wordpress   NodePort    10.103.247.154   <none>        80:32560/TCP   4h57m
+
+```
+>
+> O endereço CLUSTER-IP é o endereço interno do K8S, para acessar e terminar configuração pegasse o endereço da placa de rede do cluster com a porta.
+> 
+```
+curl  http://192.168.2.1:32560
+
+HTTP/1.1 200 OK
+Date: Thu, 08 Jul 2021 15:57:55 GMT
+Server: Apache/2.4.38 (Debian)
+X-Powered-By: PHP/7.4.21
+Link: <http://172.19.6.1:31888/wp-json/>; rel="https://api.w.org/"
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+```
