@@ -88,9 +88,9 @@ spec:
 
 ```
 
-#### criando o deploy para o banco de dados.
+#### Criando o deploy para o banco de dados.
 >
->Para um Pod ser executado no kubernetes é preciso fazer um deploy (colocar em funcionamento um container, com um codigo desenvolvido e injetado dentro do >container) é preciso criar um serviço onde vai expor as portas para acesso, interno ou externo do cluster. 
+>Para um Pod ser executado no kubernetes é preciso fazer um deploy (colocar em funcionamento um container, com um codigo desenvolvido e injetado dentro do container) é preciso criar um serviço onde vai expor as portas para acesso, interno ou externo do cluster. 
 >No caso do banco de dados ele só vai ser visível internamente pelo Pod de aplicação do wordpress.
 >
 
@@ -133,7 +133,7 @@ clusterIP: None
         persistentVolumeClaim:
           claimName: mysql-wp-pv-claim # Conferir nome do Volume.
 ```
-#### checando os logs do banco de dados.
+#### Checando os logs do banco de dados.
 
 >
 > Com o comando abaixo vejo os logs do Pod onde o mysql está instalado.
@@ -148,7 +148,7 @@ kubectl logs -n wordpress mysql-69df96bbf7-p65bg
 2021-07-08 10:51:50 1 [Note] mysqld: ready for connections.
 Version: '5.6.51'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
 ```
-#### acessando o banco de dados e verificação.
+#### Acessando o banco de dados e verificação.
 
 >
 > Com o comando criamos um Pod cliente do mysql e acessamos o banco.
@@ -158,19 +158,19 @@ kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -n wordpress
 ```
 
 
-#### criando o Persistente Volume para o WordPress.
+#### Criando o Persistente Volume para o WordPress.
 
 >
 > Esse processo segue o mesmo modo do que já foi falado no topico anterior "Criando o Persitente Volume para o Banco de Dados".
 >
 
-#### criando o deploy para o Wordpress.
+#### Criando o deploy para o Wordpress.
 
 >
 > Esse processo segue o mesmo modo do que já foi falado no topico anterior "criando o deploy para o banco de dados".
 >
 
-#### acessando e concluindo a instalação do Wordpress.
+#### Acessando e concluindo a instalação do Wordpress.
 >
 >Para acessar a aplicação temos que pegar a porta que gerada para o Pod
 >
