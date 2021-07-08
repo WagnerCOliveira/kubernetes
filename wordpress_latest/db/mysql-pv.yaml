@@ -1,0 +1,35 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: mysql-wordpresslatest
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-wplatest-pv-volume
+  labels:
+    type: local
+  namespace: wordpresslatest
+spec:
+  storageClassName: mysql-wordpresslatest
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/wplatest"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-wplatest-pv-claim
+  namespace: wordpresslatest
+spec:
+  storageClassName: mysql-wordpresslatest
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
