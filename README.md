@@ -16,6 +16,7 @@ No diretório wordpress contem a versão do wordpress 4.8 / Mysql 5.6 testados n
 
 >O arquivo de secrets guarda as informações de usuário, senha, host e banco de dados.
 >Essas informações são configuradas na imagem docker quando foi feito seu build.
+>DockerBuild [referências](https://docs.docker.com/engine/reference/builder/)
 
 ```
 ex: MYSQL_ROOT_PASSWORD: dGV4dG8K
