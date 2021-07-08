@@ -13,7 +13,7 @@ Estudos e Deploy em kubernetes
 
 # wordpress 4.8 / Mysql 5.6
 
-  Logo dentro do diretório wordpress na branch master,
+  Logo dentro do diretório wordpress na branch [master]()
 	
   A instalação do wordpress no K8S da sequinte forma:
 
