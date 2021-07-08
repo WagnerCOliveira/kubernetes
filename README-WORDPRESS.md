@@ -2,6 +2,13 @@
 
 No diretório wordpress contem a versão do wordpress 4.8 / Mysql 5.6 testados no K8S.
 
+No diretório wordpresslatest contem a versão do wordpress latest / Mysql 5.7 testados no K8S.
+
+Para criar essa stack aplica o comando, seguindo os passos abaixo:
+
+```
+kubectl create -f arquivo.yml
+```
 
 ## Para instalar do wordpress no K8S pode seguir os sequintes passos.
 
